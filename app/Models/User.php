@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role_slug',
         'password',
     ];
 
@@ -44,5 +45,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function scopeIsAdmin($query){
+        return $query->where('role', 'admin');
+    }
+
+    public function has_role(){
+        return $this->belongsTo(Role::class, 'role_slug', 'slug');
     }
 }
