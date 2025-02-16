@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('role_slug')->after('email');
+            // $table->index('role_slug');
+            // $table->foreign('role_slug')->references('slug')->on('roles')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

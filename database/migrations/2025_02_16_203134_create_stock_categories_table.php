@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,23 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('stock_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
             $table->timestamps();
+            $table->softDeletes();
         });
-
-        $items = [
-            [
-                'name' => 'Super Admin',
-                'slug' => 'super-admin',
-            ]
-        ];
-
-        foreach ($items as $data) {
-            Role::create($data);
-        }
     }
 
     /**
@@ -36,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
-        // Role::destroy(1);
+        Schema::dropIfExists('stock_categories');
     }
 };

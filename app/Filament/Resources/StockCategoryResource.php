@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
+use App\Filament\Resources\StockCategoryResource\Pages;
+use App\Filament\Resources\StockCategoryResource\RelationManagers;
+use App\Models\StockCategory;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,13 +15,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserResource extends Resource
+class StockCategoryResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = StockCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?string $navigationGroup = 'Master Data';
 
     public static function form(Form $form): Form
     {
@@ -30,16 +27,7 @@ class UserResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                TextInput::make('email')
-                    ->email(),
-                TextInput::make('password')
-                    ->password()
-                    ->revealable(),
-                Select::make('role')
-                    ->relationship('role', 'name')
-                    ->required()
-
+                    ->maxLength(255)
             ]);
     }
 
@@ -47,10 +35,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('email'),
-                TextColumn::make('role.name'),
+                TextColumn::make('name'),
             ])
             ->filters([
                 //
@@ -75,9 +60,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListStockCategories::route('/'),
+            'create' => Pages\CreateStockCategory::route('/create'),
+            'edit' => Pages\EditStockCategory::route('/{record}/edit'),
         ];
     }
 }

@@ -51,7 +51,7 @@ class User extends Authenticatable
         return $query->where('role', 'admin');
     }
 
-    public function has_role(){
+    public function role(){
         return $this->belongsTo(Role::class, 'role_slug', 'slug');
     }
 }
