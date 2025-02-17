@@ -6,12 +6,17 @@ use App\Filament\Resources\InstansiResource\Pages;
 use App\Filament\Resources\InstansiResource\RelationManagers;
 use App\Models\Instansi;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class InstansiResource extends Resource
 {
@@ -21,11 +26,44 @@ class InstansiResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected ?string $heading = 'ins';
+    
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('alamat')
+                    ->maxLength(255),
+                TextInput::make('kelurahan')
+                    ->maxLength(255),
+                TextInput::make('kecamatan')
+                    ->maxLength(255),
+                TextInput::make('kabkota')
+                    ->maxLength(255),
+                TextInput::make('propinsi')
+                    ->maxLength(255),
+                TextInput::make('zipcode')
+                    ->maxLength(255),
+                TextInput::make('cp')
+                    ->maxLength(255),
+                TextInput::make('email')
+                    ->email()
+                    ->maxLength(255),
+                FileUpload::make('image')
+                    ->getUploadedFileNameForStorageUsing(
+                        fn(TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                            ->prepend('instansi-')
+                    )
+                    ->previewable()
+                    ->image()
             ]);
     }
 
@@ -33,7 +71,11 @@ class InstansiResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('image'),
+                TextColumn::make('name'),
+                TextColumn::make('alamat')
+                    ->formatStateUsing(fn($state, Instansi $instansi) => $instansi->alamat.', kel. '.$instansi->kelurahan.', kec. '.$instansi->kecamatan)
+                    ->wrap()
             ])
             ->filters([
                 //

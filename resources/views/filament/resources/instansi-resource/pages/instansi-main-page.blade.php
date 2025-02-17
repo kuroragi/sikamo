@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <div class="flex w-full gap-3">
+    {{-- <div class="flex w-full gap-3">
         <div class="w-full md:w-1/4 bg-gray-500">
 
         </div>
@@ -9,7 +9,7 @@
 
     </div>
     <div class="grid grid-flow-col grid-col-4 gap-4">
-        <div class="col-span-1 w-1/4">
+        <div class="w-1/4">
 
             <div class="max-w-sm rounded overflow-hidden shadow-lg border">
                 <img src="/img/cctv.png" alt="" class="w-full">
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-span-1 w-3/4">
+        <div class="col-span-3 w-3/4">
 
             <div class="max-w-sm rounded overflow-hidden shadow-lg border">
                 <img src="/img/cctv.png" alt="" class="w-full">
@@ -37,5 +37,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+
 </x-filament-panels::page>

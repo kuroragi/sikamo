@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\MasterData;
 
-use App\Filament\Resources\StockCategoryResource\Pages;
-use App\Filament\Resources\StockCategoryResource\RelationManagers;
-use App\Models\StockCategory;
+use App\Filament\Resources\MasterData\stockCategoryResource\Pages;
+use App\Filament\Resources\MasterData\stockCategoryResource\RelationManagers;
+use App\Models\stockCategory;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -15,11 +15,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class StockCategoryResource extends Resource
+class stockCategoryResource extends Resource
 {
-    protected static ?string $model = StockCategory::class;
+    protected static ?string $model = stockCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document';
+
+    protected static ?string $navigationGroup = 'Master Data';
 
     public static function form(Form $form): Form
     {
@@ -35,7 +37,7 @@ class StockCategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
             ])
             ->filters([
                 //
@@ -60,9 +62,9 @@ class StockCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStockCategories::route('/'),
-            'create' => Pages\CreateStockCategory::route('/create'),
-            'edit' => Pages\EditStockCategory::route('/{record}/edit'),
+            'index' => Pages\ListstockCategories::route('/'),
+            'create' => Pages\CreatestockCategory::route('/create'),
+            'edit' => Pages\EditstockCategory::route('/{record}/edit'),
         ];
     }
 }
