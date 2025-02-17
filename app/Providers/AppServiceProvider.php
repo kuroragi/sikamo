@@ -29,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
                     ->label('Maste Data')
                     ->icon('heroicon-o-circle-stack')
                     ->collapsed(),
+                NavigationGroup::make()
+                    ->label('Product')
+                    ->icon('')
+                    ->collapsed(),
             ]);
         });
     }

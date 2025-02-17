@@ -26,7 +26,7 @@ class InstansiResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
-    protected ?string $heading = 'ins';
+    protected static ?int $navigationSort = 1;
     
     public static function canCreate(): bool
     {

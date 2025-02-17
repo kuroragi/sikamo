@@ -23,6 +23,10 @@ class stockCategoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected $listener = ['testing'];
+
+    protected static ?int $navigationSort = 4;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,6 +41,8 @@ class stockCategoryResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('index')
+                    ->rowIndex(),
                 TextColumn::make('name')
             ])
             ->filters([
@@ -66,5 +72,9 @@ class stockCategoryResource extends Resource
             'create' => Pages\CreatestockCategory::route('/create'),
             'edit' => Pages\EditstockCategory::route('/{record}/edit'),
         ];
+    }
+
+    public function testing(){
+        dd('testing');
     }
 }

@@ -2,11 +2,18 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\MasterData\stockCategoryResource;
+use App\Filament\Resources\MasterData\unitResource;
+use App\Filament\Resources\UserResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -53,6 +60,18 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            // ->navigationItems([
+            //     NavigationItem::make('units')
+            //         ->label('Units')
+            //         ->url(fn (): string => unitResource::getUrl())
+            //         ->isActiveWhen(fn () => request()->routeIs('filament.admin.pages.unit')),
+            //     NavigationItem::make('Product Category')
+            //         ->label('Units')
+            //         ->url(fn (): string => stockCategoryResource::getUrl())
+            //         ->isActiveWhen(fn () => request()->routeIs('filament.admin.pages.stockcategory')),
+            //     // ...
+            // ]);
+            ;
     }
 }

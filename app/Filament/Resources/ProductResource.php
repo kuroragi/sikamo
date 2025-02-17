@@ -10,6 +10,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -24,13 +25,26 @@ class ProductResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected static ?int $navigationSort = 6;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                TextInput::make('code_product')
+                    ->label('Kode Product')
+                    ->nullable(),
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                TextInput::make('last_buy')
+                    ->label('Harga Beli Terakhir')
+                    ->numeric()
+                    ->default(0),
+                TextInput::make('selling_price')
+                    ->label('Harga Jual')
+                    ->numeric()
+                    ->default(0),
                 Select::make('id_category')
                     ->relationship('category', 'name')
                     ->required(),
@@ -43,8 +57,19 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('index')
+                    ->label('no')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable(),
+                TextColumn::make('last_buy')
+                    ->label('Harga Beli Terakhir')
+                    ->alignEnd()
+                    ->formatStateUsing(fn(string $state):string => str_replace(',', '.', number_format($state))),
+                TextColumn::make('selling_price')
+                    ->label('Harga Jual')
+                    ->alignEnd()
+                    ->formatStateUsing(fn(string $state):string => str_replace(',', '.', number_format($state))),
                 TextColumn::make('category.name')
                     ->sortable(),
                 TextColumn::make('unit.name')

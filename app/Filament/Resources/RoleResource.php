@@ -26,6 +26,8 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,6 +49,8 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('index')
+                    ->rowIndex(),
                 TextColumn::make('name'),
             ])
             ->filters([

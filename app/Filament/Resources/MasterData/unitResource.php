@@ -23,6 +23,8 @@ class unitResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected static ?int $navigationSort = 5;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -37,6 +39,8 @@ class unitResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('index')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
