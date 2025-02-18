@@ -22,7 +22,11 @@ class Product extends Model
         return $this->belongsTo(StockCategory::class, 'id_category', 'id');
     }
 
-    public function unit(){
+    public function main_unit(){
         return $this->belongsTo(Unit::class, 'id_unit', 'id');
+    }
+
+    public function units(){
+        return $this->hasManyThrough(Unit::class, ProductUnit::class, 'id_unit', 'id_unit', 'id', 'id');
     }
 }

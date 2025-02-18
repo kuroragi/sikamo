@@ -12,10 +12,13 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ProductResource extends Resource
 {
@@ -72,13 +75,29 @@ class ProductResource extends Resource
                     ->formatStateUsing(fn(string $state):string => str_replace(',', '.', number_format($state))),
                 TextColumn::make('category.name')
                     ->sortable(),
-                TextColumn::make('unit.name')
+                TextColumn::make('main_unit.name')
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                // Action::make('units')
+                //     ->label('Check Unit')
+                //     ->icon('heroicon-o-tag')
+                //     ->modalHeading('Satuan')
+                //     ->modalContent(function(Product $record){
+                //         return $record;
+                //     })
+                //     ->action(function(array $data): void{
+                //         //
+                //     })
+                //     ->slideOver(),
+                Action::make('units')
+                    ->modal()
+                    ->modalContent(function(Product $record){
+                        return view('productView', ['record' => $record->with(['units'])->get()]);
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -89,6 +108,15 @@ class ProductResource extends Resource
                 ]),
             ]);
     }
+
+    // protected static function getSatuanTable(Product $record){
+    //     return Table::make()
+    //         ->columns([
+    //             TextColumn::make('satuans.name')
+    //                 ->label('Nama Satuan'),
+    //         ])
+    //         ->query($record->)
+    // }
 
     public static function getRelations(): array
     {

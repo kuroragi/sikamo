@@ -26,6 +26,10 @@ class InstansiResource extends Resource
 
     protected static ?string $navigationGroup = 'Master Data';
 
+    protected static ?string $navigationLabel = 'Instansi';
+
+    protected static ?string $title = "Instansi";
+
     protected static ?int $navigationSort = 1;
     
     public static function canCreate(): bool
