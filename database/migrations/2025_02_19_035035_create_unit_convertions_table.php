@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('id_group');
             $table->integer('id_unit');
             $table->integer('kali_utama');
+            $table->boolean('is_main')->default(false);
             $table->timestamps();
         });
     }

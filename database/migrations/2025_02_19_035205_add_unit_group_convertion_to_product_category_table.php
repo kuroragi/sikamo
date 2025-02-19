@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('stock_category', function (Blueprint $table) {
+        Schema::table('stock_categories', function (Blueprint $table) {
             $table->boolean('is_convertion')->default(false);
             $table->integer('id_convertion_group')->nullable();
         });
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('stock_category', function (Blueprint $table) {
+        Schema::table('stock_categories', function (Blueprint $table) {
             $table->dropColumn('is_convertion');
             $table->dropColumn('id_convertion_group');
         });

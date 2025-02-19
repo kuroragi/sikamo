@@ -16,4 +16,8 @@ class Unit extends Model
     public function product(){
         return $this->hasMany(Product::class, 'id_product', 'id');
     }
+
+    public function unitConvertion(){
+        return $this->hasMany(UnitConvertion::class, 'id_unit', 'id');
+    }
 }
