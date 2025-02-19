@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\MasterData;
 
-use App\Filament\Resources\InstansiResource\Pages;
-use App\Filament\Resources\InstansiResource\RelationManagers;
+use App\Filament\Resources\MasterData\InstansiResource\Pages;
+use App\Filament\Resources\MasterData\InstansiResource\RelationManagers;
 use App\Models\Instansi;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\InstansiResource\Pages;
+namespace App\Filament\Resources\MasterData\InstansiResource\Pages;
 
-use App\Filament\Resources\InstansiResource;
+use App\Filament\Resources\MasterData\InstansiResource;
 use Filament\Resources\Pages\Page;
 
 class InstansiMainPage extends Page

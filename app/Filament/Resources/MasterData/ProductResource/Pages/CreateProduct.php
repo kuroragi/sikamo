@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\ProductResource\Pages;
+namespace App\Filament\Resources\MasterData\ProductResource\Pages;
 
-use App\Filament\Resources\ProductResource;
+use App\Filament\Resources\MasterData\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

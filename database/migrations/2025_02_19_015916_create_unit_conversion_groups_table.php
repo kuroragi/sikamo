@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_units', function (Blueprint $table) {
+        Schema::create('unit_conversion_groups', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_product');
-            $table->integer('id_unit');
-            $table->integer('id_unit_convert');
-            $table->enum('type', ['times','divide']);
-            $table->bigInteger('amount');
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_units');
+        Schema::dropIfExists('unit_conversion_groups');
     }
 };

@@ -10,7 +10,9 @@ class StockCategory extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'is_convertion',
+        'id_convertion_group'
     ];
 
     public function product(){
