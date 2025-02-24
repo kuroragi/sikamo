@@ -29,7 +29,7 @@ class UnitConvertionResource extends Resource
         return $form
             ->schema([
                 Select::make('id_group')
-                    ->relationship('unitConvertionGroup', 'name')
+                    ->relationship('convertionUnit', 'name')
                     ->preload()
                     ->createOptionModalHeading('Tambah Group Konversi Unit')
                     ->createOptionForm([

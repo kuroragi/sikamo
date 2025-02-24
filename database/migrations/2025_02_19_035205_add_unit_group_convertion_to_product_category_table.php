@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('stock_categories', function (Blueprint $table) {
             $table->boolean('is_convertion')->default(false);
-            $table->integer('id_convertion_group')->nullable();
         });
     }
 
@@ -24,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('stock_categories', function (Blueprint $table) {
             $table->dropColumn('is_convertion');
-            $table->dropColumn('id_convertion_group');
         });
     }
 };

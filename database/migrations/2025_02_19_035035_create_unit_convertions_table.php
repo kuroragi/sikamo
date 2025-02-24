@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('unit_convertions', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_group');
+            $table->integer('id_category');
             $table->integer('id_unit');
             $table->integer('kali_utama');
             $table->boolean('is_main')->default(false);

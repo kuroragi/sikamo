@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class UnitConvertion extends Model
 {
     protected $fillable = [
-        'id_group',
+        'id_category',
         'id_unit',
-        'kali_utama'
+        'kali_utama',
+        'is_main'
     ];
 
-    public function unitConvertionGroup(){
-        return $this->belongsTo(UnitConvertionGroup::class, 'id_group', 'id');
+    public function convertionUnit(){
+        return $this->belongsTo(StockCategory::class, 'id_category', 'id');
     }
 
     public function unit(){

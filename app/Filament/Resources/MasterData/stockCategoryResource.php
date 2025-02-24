@@ -5,13 +5,17 @@ namespace App\Filament\Resources\MasterData;
 use App\Filament\Resources\MasterData\stockCategoryResource\Pages;
 use App\Filament\Resources\MasterData\stockCategoryResource\RelationManagers;
 use App\Models\stockCategory;
+use App\Models\Unit;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -49,6 +53,28 @@ class stockCategoryResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('units')
+                    ->label('Unit')
+                    ->icon('heroicon-o-magnifying-glass')
+                    ->color('info')
+                    ->button()
+                    ->outlined()
+                    ->modalHeading('Konversi Unit')
+                    ->modalContent(fn(stockCategory $record): View => view('filament.tables.modals.units', [
+                        'record' => $record
+                    ]))
+                    ->extraModalFooterActions(
+                        [
+                            Action::make('unit')
+                            ->label('Tambah Konversi Unit')
+                            ->form([
+                                Select::make('name')
+                            ])
+                        ]
+                    ),
+                    // ->modalContent(function(stockCategory $record){
+                    //     view('filament.tables.modals.units', ['record' => $record]);
+                    // }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

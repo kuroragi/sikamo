@@ -18,4 +18,8 @@ class StockCategory extends Model
     public function product(){
         return $this->hasMany(Product::class, 'id_product', 'id');
     }
+
+    public function units(){
+        return $this->hasMany(UnitConvertion::class, 'id_category', 'id');
+    }
 }
