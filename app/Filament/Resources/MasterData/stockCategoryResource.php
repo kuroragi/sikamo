@@ -6,7 +6,9 @@ use App\Filament\Resources\MasterData\stockCategoryResource\Pages;
 use App\Filament\Resources\MasterData\stockCategoryResource\RelationManagers;
 use App\Models\stockCategory;
 use App\Models\Unit;
+use App\Models\UnitConvertion;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -18,6 +20,7 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
 
 class stockCategoryResource extends Resource
 {
@@ -69,7 +72,21 @@ class stockCategoryResource extends Resource
                             ->label('Tambah Konversi Unit')
                             ->form([
                                 Select::make('name')
+                                    ->label('Satuan')
+                                    ->options(Unit::pluck('name', 'id'))
+                                    ->required(),
+                                TextInput::make('kali_utama')
+                                    ->label('Kali Utama Satuan')
+                                    ->required()
+                                    ->numeric(),
+                                Checkbox::make('is_main')
+                                    ->label('Satuan Utama?')
+                                    ->inline(false)
+                                    ->default(false),
                             ])
+                            ->modalSubmitAction(function(stockCategory $category, array $data){
+                                Log::info("Data di teriman :", $data);
+                            }),
                         ]
                     ),
                     // ->modalContent(function(stockCategory $record){
