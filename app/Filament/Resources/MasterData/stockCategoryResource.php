@@ -93,7 +93,7 @@ class stockCategoryResource extends Resource
                     //     view('filament.tables.modals.units', ['record' => $record]);
                     // }),
                 Tables\Actions\EditAction::make(),
-            ])
+                ]);
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
