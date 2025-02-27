@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_convertions', function (Blueprint $table) {
+        Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_category');
-            $table->integer('id_unit');
-            $table->float('kali_utama', 8);
-            $table->boolean('is_main')->default(false);
+            $table->string('code');
+            $table->integer('id_costumer')->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit_convertions');
+        Schema::dropIfExists('sales');
     }
 };

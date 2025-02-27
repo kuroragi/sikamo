@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationGroup;
+use Filament\Tables\Actions\EditAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,5 +36,6 @@ class AppServiceProvider extends ServiceProvider
                     ->collapsed(),
             ]);
         });
+        EditAction::macro('globalStyle', fn() => $this->button()->outlined());
     }
 }

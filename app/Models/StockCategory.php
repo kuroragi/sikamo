@@ -22,4 +22,8 @@ class StockCategory extends Model
     public function units(){
         return $this->hasMany(UnitConvertion::class, 'id_category', 'id');
     }
+
+    public function unit(){
+        return $this->hasManyThrough(Unit::class, UnitConvertion::class, 'id_category', 'id', 'id_unit', 'id');
+    }
 }

@@ -28,7 +28,7 @@ class stockCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document';
 
-    protected static ?string $navigationGroup = 'Master Data';
+    protected static ?string $navigationGroup = 'Data Product';
 
     protected $listener = ['testing'];
 
@@ -60,18 +60,16 @@ class stockCategoryResource extends Resource
                     ->label('Unit')
                     ->icon('heroicon-o-magnifying-glass')
                     ->color('info')
-                    ->button()
-                    ->outlined()
                     ->modalHeading('Konversi Unit')
                     ->modalContent(fn(stockCategory $record): View => view('filament.tables.modals.units', [
-                        'record' => $record
+                        'record' => $record->load(['unit'])
                     ]))
                     ->extraModalFooterActions(
                         [
                             Action::make('unit')
                             ->label('Tambah Konversi Unit')
                             ->form([
-                                Select::make('name')
+                                Select::make('id_unit')
                                     ->label('Satuan')
                                     ->options(Unit::pluck('name', 'id'))
                                     ->required(),
@@ -81,19 +79,24 @@ class stockCategoryResource extends Resource
                                     ->numeric(),
                                 Checkbox::make('is_main')
                                     ->label('Satuan Utama?')
-                                    ->inline(false)
                                     ->default(false),
                             ])
-                            ->modalSubmitAction(function(stockCategory $category, array $data){
-                                Log::info("Data di teriman :", $data);
-                            }),
+                            ->mutateFormDataUsing(function(array $data, stockCategory $record){
+                                $data['id_category'] = $record->id;
+                                return $data;
+                            })
+                            ->action(function(array $data, stockCategory $record){
+                                UnitConvertion::create($data);
+                            })
+                            ->modalSubmitActionLabel('Tambahkan Unit')
+                            ->successNotificationTitle('Berhasil Menambahkan unit konversi')
                         ]
                     ),
                     // ->modalContent(function(stockCategory $record){
                     //     view('filament.tables.modals.units', ['record' => $record]);
                     // }),
                 Tables\Actions\EditAction::make(),
-                ]);
+                ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

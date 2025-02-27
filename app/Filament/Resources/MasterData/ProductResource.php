@@ -26,7 +26,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Master Data';
+    protected static ?string $navigationGroup = 'Data Product';
 
     protected static ?int $navigationSort = 6;
 
@@ -93,11 +93,6 @@ class ProductResource extends Resource
                 //         //
                 //     })
                 //     ->slideOver(),
-                Action::make('units')
-                    ->modal()
-                    ->modalContent(function(Product $record){
-                        return view('productView', ['record' => $record->with(['units'])->get()]);
-                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
