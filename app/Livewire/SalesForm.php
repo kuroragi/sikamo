@@ -24,7 +24,7 @@ class SalesForm extends Component
                 ->options(Costumer::pluck('name', 'id')),
             Select::make('id_product')
                 ->label('Product')
-                ->required()
+                ->required(),
         ];
     }
 
