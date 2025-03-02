@@ -10,7 +10,8 @@ class UnitConvertion extends Model
         'id_category',
         'id_unit',
         'kali_utama',
-        'is_main'
+        'is_main',
+        'is_greater'
     ];
 
     public function convertionUnit(){

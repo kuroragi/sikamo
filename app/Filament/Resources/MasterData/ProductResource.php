@@ -5,10 +5,15 @@ namespace App\Filament\Resources\MasterData;
 use App\Filament\Resources\MasterData\ProductResource\Pages;
 use App\Filament\Resources\MasterData\ProductResource\RelationManagers;
 use App\Models\Product;
+use App\Models\StockCategory;
+use App\Models\Unit;
+use App\Models\UnitConvertion;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -18,6 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ProductResource extends Resource
@@ -49,10 +55,19 @@ class ProductResource extends Resource
                     ->numeric()
                     ->default(0),
                 Select::make('id_category')
-                    ->relationship('category', 'name')
+                    ->label('Kategori')
+                    ->live()
+                    ->options(StockCategory::pluck('name', 'id'))
+                    ->preload()
                     ->required(),
                 Select::make('id_unit')
-                    ->relationship('unit', 'name')
+                    ->options(fn(Get $get): Collection => UnitConvertion::query()
+                        ->where('id_category', $get('id_category'))
+                        ->pluck('unit.name', 'unit.id')
+                    )
+                    ->searchable()
+                    ->reactive()
+                    ->required(),
             ]);
     }
 
@@ -67,12 +82,12 @@ class ProductResource extends Resource
                     ->searchable(),
                 TextColumn::make('last_buy')
                     ->label('Harga Beli Terakhir')
-                    ->alignEnd()
-                    ->formatStateUsing(fn(string $state):string => str_replace(',', '.', number_format($state))),
+                    ->alignEnd(),
+                //     ->formatStateUsing(fn(string $state):string => str_replace(',', '.', number_format($state))),
                 TextColumn::make('selling_price')
                     ->label('Harga Jual')
-                    ->alignEnd()
-                    ->formatStateUsing(fn(string $state):string => str_replace(',', '.', number_format($state))),
+                    ->alignEnd(),
+                //     ->formatStateUsing(fn(string $state):string => str_replace(',', '.', number_format($state))),
                 TextColumn::make('category.name')
                     ->sortable(),
                 TextColumn::make('main_unit.name')
@@ -82,17 +97,6 @@ class ProductResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                // Action::make('units')
-                //     ->label('Check Unit')
-                //     ->icon('heroicon-o-tag')
-                //     ->modalHeading('Satuan')
-                //     ->modalContent(function(Product $record){
-                //         return $record;
-                //     })
-                //     ->action(function(array $data): void{
-                //         //
-                //     })
-                //     ->slideOver(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -103,15 +107,6 @@ class ProductResource extends Resource
                 ]),
             ]);
     }
-
-    // protected static function getSatuanTable(Product $record){
-    //     return Table::make()
-    //         ->columns([
-    //             TextColumn::make('satuans.name')
-    //                 ->label('Nama Satuan'),
-    //         ])
-    //         ->query($record->)
-    // }
 
     public static function getRelations(): array
     {
