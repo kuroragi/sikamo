@@ -9,9 +9,10 @@ use Livewire\Component;
 use Filament\Forms\Components\{Textinput, Select, Button, Table};
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 
-class SalesForm extends Component
+class SalesForm extends Component implements HasForms
 {
     use InteractsWithForms;
     public $id_costumer;
@@ -30,21 +31,22 @@ class SalesForm extends Component
     
     public function OpenQuantityModal($code_product) {
         $this->selectedProduct = Product::find($code_product);
-        $this->price = $this->selectedProduct->pricwe;
+        $this->price = $this->selectedProduct->price;
         $this->showQuantityModal = $this->showQuantityModal = true;
     }
 
     public function addItem(){
-        if(!$this->selectedProduct) return;
+        // if(!$this->selectedProduct) return;
+        $item = Product::findOrFail($this->id_product);
 
         $this->items[] = [
-            'id_product' => $this->selectedProduct->id,
-            'product_name' => $this->selectedProduct->name,
+            'id_product' => $this->id_product,
+            'product_name' => $item->name,
             'quantity' => $this->quantity,
             'price' => $this->price,
         ];
 
-        $this->reset(['selectedProduct', 'quantity', 'price', 'showQuantityModal']);
+        $this->reset(['quantity', 'price']);
     }
 
     public function saveSales(){
@@ -53,6 +55,7 @@ class SalesForm extends Component
 
     public function render()
     {
-        return view('livewire.sales-form');
+        $data['selected_items'] = $this->items; 
+        return view('livewire.sales-form', $data);
     }
 }

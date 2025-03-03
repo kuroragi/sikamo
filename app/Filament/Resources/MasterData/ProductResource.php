@@ -62,8 +62,13 @@ class ProductResource extends Resource
                     ->required(),
                 Select::make('id_unit')
                     ->options(fn(Get $get): Collection => UnitConvertion::query()
+                        ->with(['unit' => function($query){
+                            $query->select(['id', 'name'])->orderBy('name');
+                        }])
                         ->where('id_category', $get('id_category'))
-                        ->pluck('unit.name', 'unit.id')
+                        ->orderBy('is_main', 'desc')
+                        ->get()
+                        ->mapWithKeys(fn($item) => [$item->unit->id => $item->unit->name])
                     )
                     ->searchable()
                     ->reactive()
