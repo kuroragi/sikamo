@@ -16,4 +16,8 @@ class Sale extends Model
     public function costumer(){
         return $this->belongsTo(Costumer::class, 'id_costumer', 'id');
     }
+
+    public function saleDetail(){
+        return $this->hasMany(SaleDetail::class, 'code_master', 'code');
+    }
 }

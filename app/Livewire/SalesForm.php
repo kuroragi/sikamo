@@ -11,6 +11,7 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
+use Livewire\Attributes\On;
 
 class SalesForm extends Component implements HasForms
 {
@@ -23,7 +24,9 @@ class SalesForm extends Component implements HasForms
     public $id_product;
     public $products;
     public $quantity = 1;
-    public $price = 0;
+    public $selling_price = 0;
+    public $unit;
+    public $listeners = ['updateSelectedProduct'];
 
     public function mount(){
         $this->products = Product::all();
@@ -31,8 +34,18 @@ class SalesForm extends Component implements HasForms
     
     public function OpenQuantityModal($code_product) {
         $this->selectedProduct = Product::find($code_product);
-        $this->price = $this->selectedProduct->price;
+        $this->selling_price = $this->selectedProduct->selling_price;
         $this->showQuantityModal = $this->showQuantityModal = true;
+    }
+
+    #[On('id_product')]
+    public function updateSelectedProduct($id_product){
+        $this->id_product = $id_product;
+        $product = Product::findOrFail($this->id_product);
+        if($product){
+            dd($product);
+            $this->selling_price = $product->selling_price;
+        }
     }
 
     public function addItem(){
