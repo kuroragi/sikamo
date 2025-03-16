@@ -4,24 +4,25 @@
             <div class="mb-3">
                 <label for="id_product"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product</label>
-                <select wire:model.live.change='id_product' id="id_product"
+                <select wire:model.live='id_product' id="id_product"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="">Pilih Product</option>
                     @foreach ($products as $product)
-                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                    <option value="{{ $product->id }}">{{ $product->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-3">
                 <label for="quantity"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
-                <input wire:model='quantity' id="quantity"
+                <input wire:model.live='quantity' id="quantity"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     type="number" value="1">
             </div>
             <div class="mb-3">
-                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label>
-                <input wire:model='price' wire:key='{{ $id_product }}' id="price"
+                <label for="selling_price"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label>
+                <input wire:model='selling_price' wire:key='{{ $id_product }}' id="selling_price"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     type="number" value="0">
             </div>
@@ -40,13 +41,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($selected_items as $item)
-                    <tr
-                        class="odd:bg-white odd:dark:bg-gray-900 event:bg-gray-50 event:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                        <td class="px-6 py-3">{{ $item->product_name }}</td>
-                        <td class="px-6 py-3">{{ $item->quantity }}</td>
-                        <td class="px-6 py-3">{{ $item->price }}</td>
-                    </tr>
+                @foreach ($items as $item)
+                <tr
+                    class="odd:bg-white odd:dark:bg-gray-900 event:bg-gray-50 event:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                    <td class="px-6 py-3">{{ $item['product_name'] }}</td>
+                    <td class="px-6 py-3">{{ $item['quantity'] }}</td>
+                    <td class="px-6 py-3">{{ $item['selling_price'] }}</td>
+                </tr>
                 @endforeach
             </tbody>
         </table>

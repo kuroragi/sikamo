@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->integer('id_costumer')->nullable();
+            $table->bigInteger('id_costumer')->nullable();
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

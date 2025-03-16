@@ -10,14 +10,17 @@ class Sale extends Model
         'code',
         'id_costumer',
         'keterangan',
-        'date_sale'
+        'date_sale',
+        'discount',
+        'payment',
+        'is_finish'
     ];
 
     public function costumer(){
         return $this->belongsTo(Costumer::class, 'id_costumer', 'id');
     }
 
-    public function saleDetail(){
-        return $this->hasMany(SaleDetail::class, 'code_master', 'code');
+    public function sale_details(){
+        return $this->hasMany(SaleDetail::class, 'id_sale_master', 'id');
     }
 }

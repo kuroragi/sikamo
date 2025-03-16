@@ -5,12 +5,15 @@ namespace App\Filament\Resources\MasterData;
 use App\Filament\Resources\MasterData\SaleResource\Pages;
 use App\Filament\Resources\MasterData\SaleResource\RelationManagers;
 use App\Models\Costumer;
+use App\Models\Product;
 use App\Models\Sale;
+use Filament\Actions\Action as ActionsAction;
 use Filament\Actions\Concerns\HasForm;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -57,15 +60,63 @@ class SaleResource extends Resource
                 DatePicker::make('date_sale')
                     ->displayFormat('d-m-Y')
                     ->required(),
-                Actions::make([
-                    Action::make('items')
-                        ->label('Pilih Item')
-                        ->modalHeading('Daftar Produk')
-                        ->modalContent(fn(): View => view('pages.sales_product_form'))
-                ])
-                        ->verticalAlignment(VerticalAlignment::End)
-                        ->fullWidth(),
-                    // Repeater::make('')
+                // Actions::make([
+                //     Action::make('items')
+                //         ->label('Pilih Item')
+                //         ->modalHeading('Daftar Produk')
+                //         ->modalContent(fn(): View => view('pages.sales_product_form'))
+                // ])
+                //         ->verticalAlignment(VerticalAlignment::End)
+                //         ->fullWidth(),
+                Repeater::make('sale_details')
+                    ->relationship()
+                    ->schema([
+                        Grid::make(12)
+                        ->schema([
+                            Select::make('id_product')
+                                ->label('Produk')
+                                ->relationship('product', 'name')
+                                ->required()
+                                ->live()
+                                ->preload()
+                                ->afterStateUpdated(function($state, callable $set) {
+                                    $selling_price = Product::find($state)?->selling_price ?? 0;
+                                    $set('selling_price', $selling_price);
+                                    $set('sub_total', $selling_price);
+                                })->columnSpan(3),
+                            TextInput::make('quantity')
+                                ->label('Jumlah')
+                                ->numeric()
+                                ->default(1)
+                                ->required()
+                                ->live()
+                                ->afterStateUpdated(fn($state, callable $get, callable $set) =>
+                                    $set('sub_total', $state * $get('selling_price'))
+                                )->columnSpan(2),
+                            TextInput::make('selling_price')
+                                ->label('Harga')
+                                ->numeric()
+                                ->default(0)
+                                ->required()
+                                ->columnSpan(3),
+                            TextInput::make('sub_total')
+                                ->label('Total')
+                                ->numeric()
+                                ->disabled()
+                                ->default(0)
+                                ->columnSpan(3),
+                            // Actions::make([
+                            //     Action::make('delete')
+                            //         ->label('Hapus')
+                            //         ->color('danger')
+                            //         ->action(fn($state, $record) => $record->delete())
+                            // ])->columnSpan(1)
+                        ])
+                    ])
+                    ->minItems(1)
+                    ->addActionLabel('Tambah Produk')
+                    ->columnSpanFull(),
+                        
             ]);
     }
 

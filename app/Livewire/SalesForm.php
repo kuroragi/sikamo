@@ -31,21 +31,18 @@ class SalesForm extends Component implements HasForms
     public function mount(){
         $this->products = Product::all();
     }
-    
-    public function OpenQuantityModal($code_product) {
-        $this->selectedProduct = Product::find($code_product);
-        $this->selling_price = $this->selectedProduct->selling_price;
-        $this->showQuantityModal = $this->showQuantityModal = true;
-    }
 
     #[On('id_product')]
-    public function updateSelectedProduct($id_product){
-        $this->id_product = $id_product;
-        $product = Product::findOrFail($this->id_product);
-        if($product){
-            dd($product);
-            $this->selling_price = $product->selling_price;
+    public function updatedIdProduct(){
+        $this->selectedProduct = Product::findOrFail($this->id_product);
+        if($this->selectedProduct){
+            $this->selling_price = $this->selectedProduct->selling_price;
         }
+    }
+
+    #[On('quantity')]
+    public function updatedQuantity(){
+        $this->selling_price = $this->selectedProduct->selling_price * $this->quantity;
     }
 
     public function addItem(){
@@ -54,12 +51,12 @@ class SalesForm extends Component implements HasForms
 
         $this->items[] = [
             'id_product' => $this->id_product,
-            'product_name' => $item->name,
+            'product_name' => $this->selectedProduct->name,
             'quantity' => $this->quantity,
-            'price' => $this->price,
+            'selling_price' => $this->selling_price,
         ];
 
-        $this->reset(['quantity', 'price']);
+        $this->reset(['quantity', 'selling_price']);
     }
 
     public function saveSales(){
