@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sale_details', function (Blueprint $table) {
-            // $table->dropColumn('total');
+            $table->dropColumn('total');
             $table->dropColumn('code_master');
             $table->bigInteger('id_sale_master');
             $table->bigInteger('sub_total')->default(0);
